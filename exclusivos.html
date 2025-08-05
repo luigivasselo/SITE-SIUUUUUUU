@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIUUUU Store Exclusivos</title>
+    <link rel="icon" href="ChatGPT Image 5 de ago. de 2025, 08_11_52.png"application/atom+xml" title="Atom">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-red-cr7 { background-color: #d00d21; }
+        .bg-green-cr7 { background-color: #1d9a0f; }
+        .text-red-cr7 { color: #d00d21; }
+        .text-green-cr7 { color: #1d9a0f; }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+  
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">
+                <a href="inicio.html"><span class="text-red-cr7">SIUUU</span>
+                <span href="inicio.html" class="text-green-cr7">STORE</span></a>
+            </h1>
+            <div class="hidden md:flex space-x-6 items-center">
+                <a href="Sobre nos.html" class="font-medium hover:text-red-cr7">Sobre Nós</a>
+                <a href="Produtos.html" class="font-medium hover:text-red-cr7">Produtos</a>
+                <a href="exclusivos.html" class="font-medium hover:text-red-cr7">Exclusivos</a>
+                <a href="contato.html" class="font-medium hover:text-red-cr7">Contato</a>
+                
+                <div class="flex items-center gap-4 ml-4">
+                    <a href="carrinho.html" id="cart-btn" class="relative">
+                        🛒<span id="cart-count" class="absolute -top-2 -right-2 bg-green-cr7 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </a>
+                    <button id="login-btn-mobile" class="block w-full text-left py-2 hover:text-red-cr7">
+                <a href="index.html">Login</a>
+            </button>
+                </div>
+            </div>
+            
+
+            <button id="mobile-menu-btn" class="md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-4 pb-4">
+            <a href="Sobre nos.html" class="block py-2 hover:text-red-cr7">Sobre Nós</a>
+            <a href="Produtos.html" class="block py-2 hover:text-red-cr7">Produtos</a>
+            <a href="exclusivos.html" class="block py-2 hover:text-red-cr7">Exclusivos</a>
+            <a href="contato.html" class="block py-2 hover:text-red-cr7">Contato</a>
+            <button id="login-btn-mobile" class="block w-full text-left py-2 hover:text-red-cr7">
+                <a href="index.html">Login</a>
+            </button>
+        </div>
+        <div class="container mx-auto px-4 mt-6">
+  <input id="search-input" type="text" placeholder="Buscar produtos..." class="w-full md:w-1/2 mx-auto block px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+</div>
+    </header>
+
+
+    <main class="container mx-auto px-4 py-8">
+       
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-center text-red-cr7">EXCLUSIVOS CR7</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+             
+                <div class="bg-white rounded-lg shadow p-4">
+                    <img src="camisa autografada 2017.webp">
+                    <br>
+                   
+                    <h3 class="font-bold text-lg">Camisa Real Madrid 2017 autografada por Cristiano Ronaldo</h3>
+                    <p class="text-green-cr7 font-bold">R$ 8999,99</p>
+                    <button class="mt-2 bg-red-cr7 text-white w-full py-1 rounded hover:bg-opacity-90 add-to-cart">
+                        Adicionar
+                    </button>
+                </div>
+                
+       
+                <div class="bg-white rounded-lg shadow p-4">
+                    <img src="pote do mijo cris.jpg" width="400" height="400">
+                   
+                    <h3 class="font-bold text-lg">Pote com 70 ml de urina do Cristiano Ronaldo</h3>
+                    <p class="text-green-cr7 font-bold">R$ 45000,90</p>
+                
+                    <button class="mt-2 bg-red-cr7 text-white w-full py-1 rounded hover:bg-opacity-90 add-to-cart">
+                        Adicionar
+                    </button>
+                </div>
+                
+             
+                <div class="bg-white rounded-lg shadow p-4">
+                    <img src="garrafa.jpg"700" height="700">
+            <br>
+                    <h3 class="font-bold text-lg">Garrafinha da água enchida na casa do cristiano ronaldo em 2021 - POR ELE MESMO -</h3>
+                    <p class="text-green-cr7 font-bold">R$ 9000,00</p>
+                    <button class="mt-2 bg-red-cr7 text-white w-full py-1 rounded hover:bg-opacity-90 add-to-cart">
+                        Adicionar
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>SIUUUU Store © 2024 - Todos os direitos reservados</p>
+        </div>
+    </footer>
+<script>
+// Lógica do carrinho
+document.addEventListener('DOMContentLoaded', () => {
+    const cartCount = document.getElementById('cart-count');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cartCount.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
+    }
+
+    addToCartButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const productCard = btn.closest('div');
+            const title = productCard.querySelector('h3').textContent;
+            const price = productCard.querySelector('p').textContent;
+            const img = productCard.querySelector('img').src;
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingProduct = cart.find(p => p.title === title);
+
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ title, price, img, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        });
+    });
+
+    updateCartCount();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('search-input');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      const productTitles = document.querySelectorAll('h3');
+
+      productTitles.forEach(title => {
+        const card = title.closest('div');
+        if (title.textContent.toLowerCase().includes(query)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  }
+});
+</script>
+    
+</body>
+</html>

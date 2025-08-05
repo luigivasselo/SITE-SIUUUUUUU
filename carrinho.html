@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho - SIUUUU Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bg-red-cr7 { background-color: #d00d21; }
+    .bg-green-cr7 { background-color: #1d9a0f; }
+    .text-red-cr7 { color: #d00d21; }
+    .text-green-cr7 { color: #1d9a0f; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <header class="bg-white shadow-sm">
+    <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">
+        <a href="inicio.html"><span class="text-red-cr7">SIUUU</span><span class="text-green-cr7">STORE</span></a>
+      </h1>
+      <a href="Produtos.html" class="text-sm text-green-cr7 hover:text-red-cr7">Voltar para produtos</a>
+    </nav>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold mb-6 text-center text-red-cr7">Seu Carrinho</h2>
+    <div id="cart-items" class="space-y-6"></div>
+    <div class="mt-8 text-right text-xl font-bold text-green-cr7" id="total-price"></div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartItemsContainer = document.getElementById('cart-items');
+      const totalPriceElement = document.getElementById('total-price');
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="text-center text-gray-600">Seu carrinho está vazio.</p>';
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const preco = parseFloat(item.price.replace('R$', '').replace(',', '.'));
+        total += preco * item.quantity;
+
+        const itemHTML = `
+          <div class="flex items-center bg-white shadow rounded p-4">
+            <img src="${item.img}" alt="${item.title}" class="w-24 h-24 object-contain rounded">
+            <div class="ml-4 flex-1">
+              <h3 class="font-bold text-lg">${item.title}</h3>
+              <p class="text-green-cr7 font-semibold">${item.price}</p>
+              <p class="text-sm">Quantidade: ${item.quantity}</p>
+            </div>
+            <button onclick="removeItem(${index})" class="ml-4 text-red-cr7 hover:underline">Remover</button>
+          </div>
+        `;
+
+        cartItemsContainer.innerHTML += itemHTML;
+      });
+
+      totalPriceElement.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+    });
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      location.reload();
+    }
+  </script>
+</body>
+</html>
