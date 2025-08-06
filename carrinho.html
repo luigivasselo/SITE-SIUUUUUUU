@@ -10,37 +10,72 @@
     .bg-green-cr7 { background-color: #1d9a0f; }
     .text-red-cr7 { color: #d00d21; }
     .text-green-cr7 { color: #1d9a0f; }
+
+    .dark-mode {
+  background-color: #121212 !important;
+  color: #e0e0e0 !important;
+}
+.dark-mode header,
+.dark-mode footer {
+  background-color: #1e1e1e !important;
+}
+.dark-mode a,
+.dark-mode h1, .dark-mode h2, .dark-mode h3,
+.dark-mode p, .dark-mode span, .dark-mode button {
+  color: #e0e0e0 !important;
+}
+.dark-mode .bg-red-cr7 {
+  background-color: #b00017 !important;
+}
+.dark-mode .bg-green-cr7 {
+  background-color: #0f6f08 !important;
+}
+.dark-mode .text-red-cr7 {
+  color: #b00017 !important;
+}
+.dark-mode .text-green-cr7 {
+  color: #0f6f08 !important;
+}
   </style>
 </head>
 <body class="bg-gray-100 font-sans">
   <header class="bg-white shadow-sm">
-    <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">
-        <a href="inicio.html"><span class="text-red-cr7">SIUUU</span><span class="text-green-cr7">STORE</span></a>
-      </h1>
-      <a href="Produtos.html" class="text-sm text-green-cr7 hover:text-red-cr7">Voltar para produtos</a>
-    </nav>
+  <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+  <h1 class="text-2xl font-bold">
+    <a href="inicio.html"><span class="text-red-cr7">SIUUU</span><span class="text-green-cr7">STORE</span></a>
+  </h1>
+
+  <div class="flex items-center gap-4">
+    <a href="Produtos.html" class="text-sm text-green-cr7 hover:text-red-cr7">Voltar para produtos</a>
+    
+    
+    <button id="dark-mode-toggle" class="bg-red-cr7 text-white px-3 py-1 rounded hover:bg-opacity-90 transition text-sm">
+      Modo Escuro
+    </button>
+  </div>
+</nav>
+    
   </header>
 
-  <main class="container mx-auto px-4 py-8">
-    <h2 class="text-3xl font-bold mb-6 text-center text-red-cr7">Seu Carrinho</h2>
-    <div id="cart-items" class="space-y-6"></div>
-    <div class="mt-8 text-right text-xl font-bold text-green-cr7" id="total-price"></div>
-    <div id="cart-container" class="space-y-4"></div>
+  <div class="container mx-auto px-4 mt-10">
+  <h2 class="text-xl font-bold mb-4">Seu Carrinho</h2>
+  <div id="cart-container" class="space-y-4"></div>
   <button id="checkout-btn" class="mt-6 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Finalizar Compra</button>
 </div>
-  </main>
+
 
 <div class="container mx-auto px-4 mt-10 mb-10">
   <h2 class="text-xl font-bold mb-4">Métodos de Pagamento</h2>
-  <ul class="space-y-2">
-    <li class="bg-gray-100 p-4 rounded">💳 Cartão de Crédito/Débito</li>
-    <li class="bg-gray-100 p-4 rounded">📱 Pix</li>
-    <li class="bg-gray-100 p-4 rounded">🏦 Boleto Bancário</li>
-  </ul>
+  <select id="payment-methods" class="w-full md:w-1/2 p-2 border border-gray-300 rounded-md">
+    <option value="">Selecione o método</option>
+    <option value="cartao">Cartão de Crédito/Débito</option>
+    <option value="pix">Pix</option>
+    <option value="boleto">Boleto Bancário</option>
+  </select>
+  <div id="payment-details" class="mt-4"></div>
 </div>
 
-  <script>
+<script>
 document.addEventListener('DOMContentLoaded', () => {
     const cartBtn = document.getElementById('cart-btn');
     const cartCount = document.getElementById('cart-count');
@@ -48,6 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     const cartContainer = document.getElementById('cart-container');
     const checkoutBtn = document.getElementById('checkout-btn');
+    const paymentMethods = document.getElementById('payment-methods');
+    const paymentDetails = document.getElementById('payment-details');
 
     function updateCartCount() {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -68,7 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         cart.forEach((item, index) => {
-            const itemTotal = parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
+            let unitPrice = parseFloat(item.price.replace('R$', '').replace(',', '.'));
+            if (!item.exclusive) {
+                unitPrice *= 0.8; // 20% de desconto se não for exclusivo
+            }
+            const itemTotal = unitPrice * item.quantity;
             total += itemTotal;
 
             const div = document.createElement('div');
@@ -76,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.innerHTML = `
                 <div>
                     <h3 class="font-bold">${item.title}</h3>
-                    <p>${item.price} x${item.quantity}</p>
+                    <p>R$ ${unitPrice.toFixed(2).replace('.', ',')} x${item.quantity}</p>
                     <div class="flex gap-2 mt-2">
                         <button class="bg-red-500 text-white px-2 py-1 rounded decrease-btn" data-index="${index}">-</button>
                         <button class="bg-green-500 text-white px-2 py-1 rounded increase-btn" data-index="${index}">+</button>
@@ -140,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const title = productCard.querySelector('h3').textContent;
             const price = productCard.querySelector('p').textContent;
             const img = productCard.querySelector('img').src;
+            const exclusive = productCard.dataset.exclusive === "true";
 
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             const existingProduct = cart.find(p => p.title === title);
@@ -147,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
-                cart.push({ title, price, img, quantity: 1 });
+                cart.push({ title, price, img, exclusive, quantity: 1 });
             }
 
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -171,8 +213,80 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function generateRandomQRCode() {
+        return `https://api.qrserver.com/v1/create-qr-code/?data=siuuu-${Math.random().toString(36).substring(2)}&size=150x150`;
+    }
+
+    function renderCardFieldsWithInstallments() {
+        const installmentOptions = Array.from({ length: 12 }, (_, i) => i + 1)
+            .map(n => `<option value="${n}">${n}x de ${(1.05 ** n).toFixed(2)}% de juros</option>`) // juros simulados
+            .join('');
+
+        return `
+            <div class="mt-4">
+                <label class="block">Número do Cartão</label>
+                <input type="text" class="w-full p-2 border rounded">
+                <label class="block mt-2">Nome no Cartão</label>
+                <input type="text" class="w-full p-2 border rounded">
+                <label class="block mt-2">Validade</label>
+                <input type="text" class="w-full p-2 border rounded">
+                <label class="block mt-2">CVV</label>
+                <input type="text" class="w-full p-2 border rounded">
+                <label class="block mt-4">Parcelamento</label>
+                <select class="w-full p-2 border rounded">
+                    <option value="">Selecione</option>
+                    ${installmentOptions}
+                </select>
+            </div>
+        `;
+    }
+
+    paymentMethods?.addEventListener('change', () => {
+        const selected = paymentMethods.value;
+        paymentDetails.innerHTML = '';
+
+        if (selected === 'cartao') {
+            paymentDetails.innerHTML = renderCardFieldsWithInstallments();
+        } else if (selected === 'pix') {
+            paymentDetails.innerHTML = `
+                <div class="mt-4 text-center">
+                    <p>Escaneie o QR Code abaixo:</p>
+                    <img src="${generateRandomQRCode()}" alt="QR Code Pix" class="mx-auto mt-2">
+                </div>
+            `;
+        } else if (selected === 'boleto') {
+            paymentDetails.innerHTML = `
+                <div class="mt-4">
+                    <p>Boleto gerado com sucesso. Clique para imprimir:</p>
+                    <button class="mt-2 bg-gray-800 text-white px-4 py-2 rounded">Imprimir Boleto</button>
+                </div>
+            `;
+        }
+    });
+
     renderCart();
     updateCartCount();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('dark-mode-toggle');
+  const darkClass = 'dark-mode';
+
+  if(localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add(darkClass);
+    toggleBtn.textContent = 'Modo Claro';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle(darkClass);
+    if(document.body.classList.contains(darkClass)) {
+      localStorage.setItem('darkMode', 'enabled');
+      toggleBtn.textContent = 'Modo Claro';
+    } else {
+      localStorage.setItem('darkMode', 'disabled');
+      toggleBtn.textContent = 'Modo Escuro';
+    }
+  });
 });
 </script>
   

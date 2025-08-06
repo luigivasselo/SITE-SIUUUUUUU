@@ -5,12 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIUUUU Store inicio</title>
     <link rel="icon" href="ChatGPT Image 5 de ago. de 2025, 08_11_52.png"application/atom+xml" title="Atom">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .bg-red-cr7 { background-color: #d00d21; }
         .bg-green-cr7 { background-color: #1d9a0f; }
         .text-red-cr7 { color: #d00d21; }
         .text-green-cr7 { color: #1d9a0f; }
+
+        .dark-mode {
+  background-color: #121212 !important;
+  color: #e0e0e0 !important;
+}
+.dark-mode header,
+.dark-mode footer {
+  background-color: #1e1e1e !important;
+}
+.dark-mode a,
+.dark-mode h1, .dark-mode h2, .dark-mode h3,
+.dark-mode p, .dark-mode span, .dark-mode button {
+  color: #e0e0e0 !important;
+}
+.dark-mode .bg-red-cr7 {
+  background-color: #b00017 !important;
+}
+.dark-mode .bg-green-cr7 {
+  background-color: #0f6f08 !important;
+}
+.dark-mode .text-red-cr7 {
+  color: #b00017 !important;
+}
+.dark-mode .text-green-cr7 {
+  color: #0f6f08 !important;
+}
     </style>
 </head>
 <body class="font-sans bg-gray-100">
@@ -21,21 +49,25 @@
                 <span class="text-red-cr7">SIUUU</span>
                 <span class="text-green-cr7">STORE</span>
             </h1>
-            <div class="hidden md:flex space-x-6 items-center">
-                <a href="Sobre nos.html" class="font-medium hover:text-red-cr7">Sobre Nós</a>
-                <a href="Produtos.html" class="font-medium hover:text-red-cr7">Produtos</a>
-                <a href="exclusivos.html" class="font-medium hover:text-red-cr7">Exclusivos</a>
-                <a href="contato.html" class="font-medium hover:text-red-cr7">Contato</a>
-                
-                <div class="flex items-center gap-4 ml-4">
-                    <a href="carrinho.html" id="cart-btn" class="relative">
-                        🛒<span id="cart-count" class="absolute -top-2 -right-2 bg-green-cr7 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                    </a>
-                    <button id="login-btn-mobile" class="block w-full text-left py-2 hover:text-red-cr7">
-                <a href="index.html">Login</a>
-            </button>
-                </div>
-            </div>
+           <div class="hidden md:flex space-x-6 items-center">
+    <a href="Sobre nos.html" class="font-medium hover:text-red-cr7">Sobre Nós</a>
+    <a href="Produtos.html" class="font-medium hover:text-red-cr7">Produtos</a>
+    <a href="exclusivos.html" class="font-medium hover:text-red-cr7">Exclusivos</a>
+    <a href="contato.html" class="font-medium hover:text-red-cr7">Contato</a>
+    
+    <div class="flex items-center gap-4 ml-4">
+        <a href="carrinho.html" id="cart-btn" class="relative">
+            🛒<span id="cart-count" class="absolute -top-2 -right-2 bg-green-cr7 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </a>
+        <button id="login-btn-mobile" class="block w-full text-left py-2 hover:text-red-cr7">
+            <a href="index.html">Login</a>
+        </button>
+       
+        <button id="dark-mode-toggle" class="bg-red-cr7 text-white px-4 py-1 rounded hover:bg-opacity-90 transition">
+            Modo Escuro
+        </button>
+    </div>
+</div>
             
 
             <button id="mobile-menu-btn" class="md:hidden">
@@ -66,48 +98,35 @@
        
         <section class="mb-12">
             <h2 class="text-3xl font-bold mb-6 text-center text-red-cr7">INICIO</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-             
-                <div class="bg-white rounded-lg shadow p-4">
-                    <img src="camisa-legends-the-siu-cr7-goat-tevo-sports-1-a1f9450d26710dad1816983727625324-1024-1024.webp">
-                    <br>
-                   
-                    <h3 class="font-bold text-lg">Camisa CR7</h3>
-                    <p class="text-green-cr7 font-bold">R$ 299,90</p>
-                    <button class="mt-2 bg-red-cr7 text-white w-full py-1 rounded hover:bg-opacity-90 add-to-cart">
-                        Adicionar
-                    </button>
-                </div>
-                
-       
-                <div class="bg-white rounded-lg shadow p-4">
-                    <img src="chuteira_ronaldo.jpg">
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <h3 class="font-bold text-lg">Chuteira CR7</h3>
-                    <p class="text-green-cr7 font-bold">R$ 499,90</p>
-                
-                    <button class="mt-2 bg-red-cr7 text-white w-full py-1 rounded hover:bg-opacity-90 add-to-cart">
-                        Adicionar
-                    </button>
-                </div>
-                
-             
-                <div class="bg-white rounded-lg shadow p-4">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/cb5a8137-4767-4e70-b370-000af17a290d.png" alt="Perfume CR7" class="w-full rounded mb-4">
-                    <h3 class="font-bold text-lg">Perfume CR7</h3>
-                    <p class="text-green-cr7 font-bold">R$ 249,90</p>
-                    <button class="mt-2 bg-red-cr7 text-white w-full py-1 rounded hover:bg-opacity-90 add-to-cart">
-                        Adicionar
-                    </button>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 justify-center">
+                <div class="md:col-span-3 flex justify-center">
+                    <a href="Produtos.html" style="width:100%;max-width:384px;display:block;">
+                        <div id="carouselExampleAutoplaying" class="carousel slide w-full max-w-md" data-bs-ride="carousel" data-bs-interval="2500" style="cursor:pointer;">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="camisa-legends-the-siu-cr7-goat-tevo-sports-1-a1f9450d26710dad1816983727625324-1024-1024.webp" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="chuteira_ronaldo.jpg" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="camisa real.webp" class="d-block w-100" alt="...">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">proximo</span>
+                            </button>
+                        </div>
+                    </a>
                 </div>
             </div>
+        </section>
+
         </section>
 
     
@@ -136,7 +155,28 @@
     </footer>
 
     <script>
-// Lógica do carrinho
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('dark-mode-toggle');
+  const darkClass = 'dark-mode';
+
+  if(localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add(darkClass);
+    toggleBtn.textContent = 'Modo Claro';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle(darkClass);
+    if(document.body.classList.contains(darkClass)) {
+      localStorage.setItem('darkMode', 'enabled');
+      toggleBtn.textContent = 'Modo Claro';
+    } else {
+      localStorage.setItem('darkMode', 'disabled');
+      toggleBtn.textContent = 'Modo Escuro';
+    }
+  });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const cartCount = document.getElementById('cart-count');
     const addToCartButtons = document.querySelectorAll('.add-to-cart');

@@ -11,6 +11,32 @@
         .bg-green-cr7 { background-color: #1d9a0f; }
         .text-red-cr7 { color: #d00d21; }
         .text-green-cr7 { color: #1d9a0f; }
+
+        .dark-mode {
+  background-color: #121212 !important;
+  color: #e0e0e0 !important;
+}
+.dark-mode header,
+.dark-mode footer {
+  background-color: #1e1e1e !important;
+}
+.dark-mode a,
+.dark-mode h1, .dark-mode h2, .dark-mode h3,
+.dark-mode p, .dark-mode span, .dark-mode button {
+  color: #e0e0e0 !important;
+}
+.dark-mode .bg-red-cr7 {
+  background-color: #b00017 !important;
+}
+.dark-mode .bg-green-cr7 {
+  background-color: #0f6f08 !important;
+}
+.dark-mode .text-red-cr7 {
+  color: #b00017 !important;
+}
+.dark-mode .text-green-cr7 {
+  color: #0f6f08 !important;
+}
     </style>
 </head>
 <body class="font-sans bg-gray-100">
@@ -22,20 +48,24 @@
                 <span href="inicio.html" class="text-green-cr7">STORE</span></a>
             </h1>
             <div class="hidden md:flex space-x-6 items-center">
-                <a href="Sobre nos.html" class="font-medium hover:text-red-cr7">Sobre Nós</a>
-                <a href="Produtos.html" class="font-medium hover:text-red-cr7">Produtos</a>
-                <a href="exclusivos.html" class="font-medium hover:text-red-cr7">Exclusivos</a>
-                <a href="contato.html" class="font-medium hover:text-red-cr7">Contato</a>
-                
-                <div class="flex items-center gap-4 ml-4">
-                    <a href="carrinho.html" id="cart-btn" class="relative">
-                        🛒<span id="cart-count" class="absolute -top-2 -right-2 bg-green-cr7 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                    </a>
-                    <button id="login-btn-mobile" class="block w-full text-left py-2 hover:text-red-cr7">
-                <a href="index.html">Login</a>
-            </button>
-                </div>
-            </div>
+    <a href="Sobre nos.html" class="font-medium hover:text-red-cr7">Sobre Nós</a>
+    <a href="Produtos.html" class="font-medium hover:text-red-cr7">Produtos</a>
+    <a href="exclusivos.html" class="font-medium hover:text-red-cr7">Exclusivos</a>
+    <a href="contato.html" class="font-medium hover:text-red-cr7">Contato</a>
+    
+    <div class="flex items-center gap-4 ml-4">
+        <a href="carrinho.html" id="cart-btn" class="relative">
+            🛒<span id="cart-count" class="absolute -top-2 -right-2 bg-green-cr7 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </a>
+        <button id="login-btn-mobile" class="block w-full text-left py-2 hover:text-red-cr7">
+            <a href="index.html">Login</a>
+        </button>
+        
+        <button id="dark-mode-toggle" class="bg-red-cr7 text-white px-4 py-1 rounded hover:bg-opacity-90 transition">
+            Modo Escuro
+        </button>
+    </div>
+</div>
             
 
             <button id="mobile-menu-btn" class="md:hidden">
@@ -111,7 +141,28 @@
         </div>
     </footer>
 <script>
-// Lógica do carrinho
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('dark-mode-toggle');
+  const darkClass = 'dark-mode';
+
+  if(localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add(darkClass);
+    toggleBtn.textContent = 'Modo Claro';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle(darkClass);
+    if(document.body.classList.contains(darkClass)) {
+      localStorage.setItem('darkMode', 'enabled');
+      toggleBtn.textContent = 'Modo Claro';
+    } else {
+      localStorage.setItem('darkMode', 'disabled');
+      toggleBtn.textContent = 'Modo Escuro';
+    }
+  });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const cartCount = document.getElementById('cart-count');
     const addToCartButtons = document.querySelectorAll('.add-to-cart');
