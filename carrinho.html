@@ -26,49 +26,155 @@
     <h2 class="text-3xl font-bold mb-6 text-center text-red-cr7">Seu Carrinho</h2>
     <div id="cart-items" class="space-y-6"></div>
     <div class="mt-8 text-right text-xl font-bold text-green-cr7" id="total-price"></div>
+    <div id="cart-container" class="space-y-4"></div>
+  <button id="checkout-btn" class="mt-6 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Finalizar Compra</button>
+</div>
   </main>
 
+<div class="container mx-auto px-4 mt-10 mb-10">
+  <h2 class="text-xl font-bold mb-4">Métodos de Pagamento</h2>
+  <ul class="space-y-2">
+    <li class="bg-gray-100 p-4 rounded">💳 Cartão de Crédito/Débito</li>
+    <li class="bg-gray-100 p-4 rounded">📱 Pix</li>
+    <li class="bg-gray-100 p-4 rounded">🏦 Boleto Bancário</li>
+  </ul>
+</div>
+
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const cartItemsContainer = document.getElementById('cart-items');
-      const totalPriceElement = document.getElementById('total-price');
+document.addEventListener('DOMContentLoaded', () => {
+    const cartBtn = document.getElementById('cart-btn');
+    const cartCount = document.getElementById('cart-count');
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    const searchInput = document.getElementById('search-input');
+    const cartContainer = document.getElementById('cart-container');
+    const checkoutBtn = document.getElementById('checkout-btn');
 
-      if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p class="text-center text-gray-600">Seu carrinho está vazio.</p>';
-        return;
-      }
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (cartCount) {
+            cartCount.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
+        }
+    }
 
-      let total = 0;
+    function renderCart() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (!cartContainer) return;
+        cartContainer.innerHTML = '';
+        let total = 0;
 
-      cart.forEach((item, index) => {
-        const preco = parseFloat(item.price.replace('R$', '').replace(',', '.'));
-        total += preco * item.quantity;
+        if (cart.length === 0) {
+            cartContainer.innerHTML = '<p class="text-center">Carrinho vazio.</p>';
+            return;
+        }
 
-        const itemHTML = `
-          <div class="flex items-center bg-white shadow rounded p-4">
-            <img src="${item.img}" alt="${item.title}" class="w-24 h-24 object-contain rounded">
-            <div class="ml-4 flex-1">
-              <h3 class="font-bold text-lg">${item.title}</h3>
-              <p class="text-green-cr7 font-semibold">${item.price}</p>
-              <p class="text-sm">Quantidade: ${item.quantity}</p>
-            </div>
-            <button onclick="removeItem(${index})" class="ml-4 text-red-cr7 hover:underline">Remover</button>
-          </div>
-        `;
+        cart.forEach((item, index) => {
+            const itemTotal = parseFloat(item.price.replace('R$', '').replace(',', '.')) * item.quantity;
+            total += itemTotal;
 
-        cartItemsContainer.innerHTML += itemHTML;
-      });
+            const div = document.createElement('div');
+            div.className = 'flex justify-between items-center border p-4 rounded mb-2';
+            div.innerHTML = `
+                <div>
+                    <h3 class="font-bold">${item.title}</h3>
+                    <p>${item.price} x${item.quantity}</p>
+                    <div class="flex gap-2 mt-2">
+                        <button class="bg-red-500 text-white px-2 py-1 rounded decrease-btn" data-index="${index}">-</button>
+                        <button class="bg-green-500 text-white px-2 py-1 rounded increase-btn" data-index="${index}">+</button>
+                    </div>
+                </div>
+                <button class="text-red-500 remove-btn" data-index="${index}">Remover</button>
+            `;
+            cartContainer.appendChild(div);
+        });
 
-      totalPriceElement.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+        const totalDiv = document.createElement('div');
+        totalDiv.className = 'text-right font-bold mt-4';
+        totalDiv.textContent = `Total: R$ ${total.toFixed(2).replace('.', ',')}`;
+        cartContainer.appendChild(totalDiv);
+    }
+
+    document.addEventListener('click', (e) => {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (e.target.classList.contains('remove-btn')) {
+            const index = e.target.getAttribute('data-index');
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            updateCartCount();
+        }
+        if (e.target.classList.contains('increase-btn')) {
+            const index = e.target.getAttribute('data-index');
+            cart[index].quantity += 1;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            updateCartCount();
+        }
+        if (e.target.classList.contains('decrease-btn')) {
+            const index = e.target.getAttribute('data-index');
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+            } else {
+                cart.splice(index, 1);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            updateCartCount();
+        }
     });
 
-    function removeItem(index) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.splice(index, 1);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      location.reload();
+    checkoutBtn?.addEventListener('click', () => {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (cart.length === 0) {
+            alert('Seu carrinho está vazio.');
+            return;
+        }
+        alert('Compra finalizada com sucesso! Obrigado por comprar na SIUUUU Store.');
+        localStorage.removeItem('cart');
+        renderCart();
+        updateCartCount();
+    });
+
+    addToCartButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const productCard = btn.closest('div');
+            const title = productCard.querySelector('h3').textContent;
+            const price = productCard.querySelector('p').textContent;
+            const img = productCard.querySelector('img').src;
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingProduct = cart.find(p => p.title === title);
+
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ title, price, img, quantity: 1 });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+        });
+    });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            const productCards = document.querySelectorAll('h3');
+
+            productCards.forEach(titleEl => {
+                const card = titleEl.closest('div');
+                if (titleEl.textContent.toLowerCase().includes(query)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     }
-  </script>
+
+    renderCart();
+    updateCartCount();
+});
+</script>
+  
 </body>
 </html>
